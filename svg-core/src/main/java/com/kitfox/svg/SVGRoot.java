@@ -474,7 +474,16 @@ public class SVGRoot extends Group
             for (int i = 0; i < getNumChildren(); ++i)
             {
                 SVGElement ele = getChild(i);
-                if (ele instanceof Style)
+                if ( ele instanceof Defs) {
+                	for (int j = 0; j < ele.getNumChildren(); j++) {
+                		SVGElement eleChild = ele.getChild(j);
+                        if (eleChild instanceof Style)
+                        {
+                            return ((Style)eleChild).getStyleSheet();
+                        }
+					}
+                }
+                else if (ele instanceof Style)
                 {
                     return ((Style)ele).getStyleSheet();
                 }

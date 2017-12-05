@@ -628,7 +628,7 @@ abstract public class SVGElement implements Serializable
         }
 
         //Return if we've found a non animated style
-        if (styAttr != null)
+        if (styAttr != null && styAttr.getStringValue() != null)
         {
             return true;
         }
@@ -651,7 +651,7 @@ abstract public class SVGElement implements Serializable
         }
 
         //Return if we've found a presentation attribute instead
-        if (presAttr != null)
+        if (presAttr != null && presAttr.getStringValue() != null)
         {
             return true;
         }

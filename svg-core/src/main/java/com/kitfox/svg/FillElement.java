@@ -44,6 +44,8 @@ import java.awt.geom.*;
  */
 abstract public class FillElement extends SVGElement
 {
+    public static final String TAG_NAME = "fill";
+
     /**
      * Creates a new instance of FillElement
      */

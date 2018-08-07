@@ -1,0 +1,8 @@
+
+ext {
+	// Branding strings
+	productName = "SVG Salamander"
+	productNameCollapsed = "svgSalamander"
+	productVersion = '1.0.8-aj1'
+	vendorName = "KitFox / Adrian Jones"
+}

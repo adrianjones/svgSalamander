@@ -1,0 +1,41 @@
+/*
+ $Workfile: dependencies.gradle$
+ Copyright© 2016 Meridian Technique Ltd. All rights reserved.
+ $Log[10]:
+  5    Branch 0   1.4         02/08/18 14:58:43 BST  Rowan Lonsdale  ISU20734
+       Adjust build scripts to enable IDE project generation
+  4    Branch 0   1.3         11/07/18 11:09:45 BST  Rowan Lonsdale  ISU21123
+       Upgrade Groovy to version specified in SOUP
+  3    Branch 0   1.2         18/04/18 12:37:03 BST  Rowan Lonsdale  ISU21133
+       Add JAXB core jar to build dependencies
+  2    Branch 0   1.1         18/04/18 12:14:46 BST  Rowan Lonsdale  ISU21133
+       Add JAXB jars
+  1    Branch 0   1.0         19/12/17 17:50:08 GMT  Rowan Lonsdale  ISU20734
+       Change layout tasks in build to reflect what's required by the
+       installer-builder
+ $
+*/
+
+/*
+ * Define a few extra configurations to store dependencies
+ */
+configurations {
+}
+
+repositories {
+	maven {
+				url "https://jcenter.bintray.com"
+	}
+}
+
+dependencies {
+	
+	compile fileTree(dir: 'src/main/lib', include: '*.jar')
+
+	compileOnly group: 'org.apache.ant', name: 'ant', version: '1.9.4'
+
+
+	testCompile fileTree(dir: 'src/test/lib', include: '*.jar')
+	testCompile "junit:junit:4.+"	
+	
+}

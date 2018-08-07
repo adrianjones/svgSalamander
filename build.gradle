@@ -1,0 +1,38 @@
+
+plugins {
+    id 'groovy'
+    id 'eclipse'
+    id 'idea'
+    id 'java'
+}
+
+ext.scriptDir = buildscript.sourceFile.parentFile
+
+apply from: "$scriptDir/gradle/dependencies.gradle" //Configuration dependencies
+apply from: "$scriptDir/gradle/branding.gradle" 	//Configuration dependencies
+
+sourceSets {
+	main {
+			java {
+					srcDirs= ["svg-core/src/main/java"]
+			}
+			resources {
+					srcDirs= ["svg-core/src/main/res"]
+			}
+	}
+	test {
+		java {
+				srcDirs= ["svg-core/src/test/java"]
+		}
+	}
+}
+
+jar {
+	archiveName = "${productNameCollapsed}.jar"
+	manifest.attributes([
+		"Implementation-Title": productName,
+		"Implementation-Vendor": vendorName,
+		"Build-Date": new java.text.SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date()),
+		"Version": productVersion,
+	])	
+}

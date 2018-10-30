@@ -1,3 +1,13 @@
 /bin/
 /.gradle/
 /build/
+/svg-core/nbproject/private/
+/svg-core/build/
+/svg-core/dist/
+/svg-example/build/
+/svg-core/nbproject
+/svg-core/src/gen
+/libraries/nblibraries-private.properties
+/libraries/nblibraries.properties
+/svg-core/tempKeystore
+/svg-example/nbproject

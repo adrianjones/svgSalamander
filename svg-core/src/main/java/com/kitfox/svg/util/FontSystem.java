@@ -47,6 +47,7 @@ import java.awt.font.GlyphMetrics;
 import java.awt.font.GlyphVector;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,7 +68,7 @@ public class FontSystem extends Font
     {
         if (sysFontNames.isEmpty())
         {
-            for (String name: GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+            for (String name: GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(Locale.ENGLISH))
             {
                 sysFontNames.add(name);
             }
@@ -81,15 +82,33 @@ public class FontSystem extends Font
         String[] families = fontFamily.split(",");
         for (String fontName: families)
         {
-            if (checkIfSystemFontExists(fontName))
+            String javaFontName = mapJavaFontName(fontName);
+            if (checkIfSystemFontExists(javaFontName))
             {
-                return new FontSystem(fontName, fontStyle, fontWeight, (int) fontSize);
+                return new FontSystem(javaFontName, fontStyle, fontWeight, (int) fontSize);
             }
         }
         
         return null;
     }
-    
+
+    private static String mapJavaFontName(String fontName)
+    {
+        if ("serif".equals(fontName))
+        {
+            return java.awt.Font.SERIF;
+        }
+        else if ("sans-serif".equals(fontName))
+        {
+            return java.awt.Font.SANS_SERIF;
+        }
+        else if ("monospace".equals(fontName))
+        {
+            return java.awt.Font.MONOSPACED;
+        }
+        return fontName;
+    }
+
     private FontSystem(String fontFamily, int fontStyle, int fontWeight, int fontSize)
     {
         int style;
@@ -140,8 +159,8 @@ public class FontSystem extends Font
             glyph.setPath(vec.getGlyphOutline(0));
 
             GlyphMetrics gm = vec.getGlyphMetrics(0);
-            glyph.setHorizAdvX((int)gm.getAdvanceX());
-            glyph.setVertAdvY((int)gm.getAdvanceY());
+            glyph.setHorizAdvX(gm.getAdvanceX());
+            glyph.setVertAdvY(gm.getAdvanceY());
             glyph.setVertOriginX(0);
             glyph.setVertOriginY(0);
             

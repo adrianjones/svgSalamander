@@ -53,6 +53,8 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.ImageIcon;
 
 
@@ -364,8 +366,9 @@ public class SVGIcon extends ImageIcon
     /**
      * Loads an SVG document from a URI.
      * @param svgURI - URI to load document from
+     * @throws SVGException if you unable to load
      */
-    public void setSvgURI(URI svgURI)
+    public void setSvgURI(URI svgURI) throws SVGException 
     {
         URI old = this.svgURI;
         this.svgURI = svgURI;
@@ -379,36 +382,26 @@ public class SVGIcon extends ImageIcon
                 size = new Dimension((int)diagram.getRoot().getDeviceWidth(), (int)diagram.getRoot().getDeviceHeight());
             }
             diagram.setDeviceViewport(new Rectangle(0, 0, size.width, size.height));
+            changes.firePropertyChange("svgURI", old, svgURI);
         }
-        
-        changes.firePropertyChange("svgURI", old, svgURI);
+        else {
+        	throw new SVGException( "Could not load SVG from URI: " + svgURI.toString());
+        }
     }
     
     /**
-     * Loads an SVG document from the classpath.  This function is equivilant to
+     * Loads an SVG document from the classpath.  This function is equivalent to
      * setSvgURI(new URI(getClass().getResource(resourcePath).toString());
      * @param resourcePath - resource to load
+     * @throws SVGException if you unable to load or {@link URISyntaxException}
      */
-    public void setSvgResourcePath(String resourcePath)
-    {
-        URI old = this.svgURI;
-        
-        try
-        {
-            svgURI = new URI(getClass().getResource(resourcePath).toString());
-            changes.firePropertyChange("svgURI", old, svgURI);
-            
-            SVGDiagram diagram = svgUniverse.getDiagram(svgURI);
-            if (diagram != null)
-            {
-                diagram.setDeviceViewport(new Rectangle(0, 0, preferredSize.width, preferredSize.height));
-            }
-            
-        }
-        catch (Exception e)
-        {
-            svgURI = old;
-        }
+    public void setSvgResourcePath(String resourcePath) throws SVGException {
+        try {
+        	setSvgURI( getClass().getResource(resourcePath).toURI());
+	    }
+	    catch ( URISyntaxException ex) {
+            throw new SVGException( "Could not load SVG from classpath resource:" + resourcePath, ex);
+	    }
     }
     
     /**

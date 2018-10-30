@@ -619,15 +619,13 @@ public class SVGUniverse implements Serializable
         {
             Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
                 "Error processing " + xmlBase, sex);
-
-            loadedDocs.remove(xmlBase);
-            return null;
         } catch (Throwable e)
         {
             Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
                 "Could not load SVG " + xmlBase, e);
         }
-
+        
+        loadedDocs.remove(xmlBase);
         return null;
     }
 

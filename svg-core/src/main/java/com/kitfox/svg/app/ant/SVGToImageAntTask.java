@@ -226,9 +226,18 @@ public class SVGToImageAntTask extends Task
         }
         shortName += "." + format;
         
-        SVGIcon icon = new SVGIcon();
-        icon.setSvgURI(source.toURI());
-        icon.setAntiAlias(antiAlias);
+        final SVGIcon icon;
+        try {
+	        icon = new SVGIcon();
+	        icon.setSvgURI(source.toURI());
+	        icon.setAntiAlias(antiAlias);
+        }
+        catch (SVGException e)
+        {
+            log("Error reading SVG: " + e.getMessage());
+            throw new BuildException(e);
+        }
+
         if (interpolation.equals("nearest neighbor"))
         {
             icon.setInterpolation(SVGIcon.INTERP_NEAREST_NEIGHBOR);
